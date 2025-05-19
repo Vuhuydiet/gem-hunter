@@ -16,7 +16,7 @@ def ok_assignment(grid, model, cell_id):
     for sur in neighbors(neighbor[0], neighbor[1], rows, cols):
       if grid[sur[0]][sur[1]] != '_':
         continue
-      if get_id(sur[0], sur[1], cols) in assigned and get_id(sur[0], sur[1], cols) in model:
+      if get_id(sur[0], sur[1], cols) in model:
         traps += 1
       elif get_id(sur[0], sur[1], cols) not in assigned:
         unknowns += 1
@@ -43,9 +43,8 @@ def solve(cnf: CNF, grid: list[list[any]]) -> list[int]:
   rows, cols = len(grid), len(grid[0])
 
   empty_cells_ids = [get_id(i, j, cols) for i in range(rows) for j in range(cols) if grid[i][j] == '_']
-  model = [-(i + 1) for i in range(rows * cols) if i + 1 not in empty_cells_ids]
   
-  model = backtrack(grid, cnf, model, empty_cells_ids, 0)
+  model = backtrack(grid, cnf, [], empty_cells_ids, 0)
   if model is None:
     raise Exception("No solution found")
   return model

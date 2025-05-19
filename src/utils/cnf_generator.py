@@ -29,7 +29,7 @@ def gen_cnf(grid: list[list[any]]) -> CNF:
         continue
       
       surrounding_cells = neighbors(i, j, rows, cols)
-      vars = [get_id(x, y, cols) for (x, y) in surrounding_cells]
+      vars = [get_id(x, y, cols) for (x, y) in surrounding_cells if grid[x][y] == '_']
 
       cnf_list = exactly_k(vars, val)
       for clause in cnf_list:
